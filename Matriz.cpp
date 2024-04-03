@@ -50,7 +50,51 @@ void EliminarMatriz(unsigned short int** Matriz, unsigned short int* Dimension)
 
 }
 
-/*void Imprimir()
+short unsigned int TransformarFila(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension, unsigned short int* CantRotaciones)
+{
+    if (*CantRotaciones == 1)
+    {
+        return Columna;
+    }
+    else if(*CantRotaciones == 2)
+    {
+        return (*Dimension) - (Fila) + 1;
+    }
+    else if(*CantRotaciones == 3)
+    {
+        return (*Dimension) - (Columna) + 1;
+    }
+}
+
+short unsigned int TransformarColumna(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension, unsigned short int* CantRotaciones)
+{
+    if (*CantRotaciones == 1)
+    {
+        return (*Dimension) - (Fila) + 1;
+    }
+    else if(*CantRotaciones == 2)
+    {
+        return (*Dimension) - (Columna) + 1;
+    }
+    else if(*CantRotaciones == 3)
+    {
+        return Fila;
+    }
+}
+
+unsigned short int ObtenerValorCasilla(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension, char Centro)
+{
+    if (Centro == '-')
+    {
+        return ( (Columna) + ((Fila-1)*(*Dimension)) );
+    }
+    else if (Centro == '+')
+    {
+        return ( (Columna) + ((Fila-1)*(*Dimension)) ) -1;
+    }
+}
+
+/*void ImprimirMatriz(unsigned short int** Matriz, unsigned short int* Dimension)
 {
     for (short int Fila=0; Fila<(*Dimension); Fila++)
     {
