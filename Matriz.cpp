@@ -4,54 +4,59 @@
 unsigned short int** CrearMatriz(unsigned short int* Dimension)
 {
     unsigned short int** Matriz;
-    Matriz = new unsigned short int*[*Dimension];
 
-    for (short int Fila=1; Fila<=((*Dimension)/2)+1; Fila++)
+    Matriz = new unsigned short int*[*Dimension];    //Se coloca a apuntar a un arreglo dinámico de punteros a int de tamaño dimensión (filas)
+
+    for (short int Fila=1; Fila<=((*Dimension)/2)+1; Fila++)  //Se recorren las filas hasta la centro del arreglo anterior
     {
-        if (Fila != ((*Dimension)/2)+1)
+        if (Fila < ((*Dimension)/2)+1)     //Si se está en una fila diferente a la centro
         {
-            Matriz[Fila-1] = new unsigned short int[*Dimension];
-            Matriz[(*Dimension)-Fila] = new unsigned short int[*Dimension];
+            Matriz[Fila-1] = new unsigned short int[*Dimension];               //    Se asigna a cada apuntador de las filas opuestas a apuntar
+            Matriz[(*Dimension)-Fila] = new unsigned short int[*Dimension];    //    a un arreglo dinámico de enteros de tamaño dimension (columnas)
 
-            for  (short int Columna=1; Columna<=(*Dimension); Columna++)
+            for  (short int Columna=1; Columna<=(*Dimension); Columna++)   //Se recorren los arreglos de enteros (columnas) recien creados
             {
-                Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(Fila, Columna, Dimension);
-                Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla( (*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension);
+                Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(Fila, Columna, Dimension);                                                           //   Se asignan a las columnas opuestas sus respectivos
+                Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla( (*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension);      //   valores con ayuda de la funcion para obtener el valor
             }
         }
-        else
+        else    //Si se está en la fila centro
         {
-            Matriz[Fila-1] = new unsigned short int[*Dimension];
+            Matriz[Fila-1] = new unsigned short int[*Dimension];       //Se direcciona el apuntador de la fila centro a una matriz de enteros
 
-            for (short int Columna=1; Columna<=((*Dimension)/2); Columna++)
+            for (short int Columna=1; Columna<=((*Dimension)/2); Columna++)     //Se reccorre las columnas de la fila centro hasta antes de la casilla centro
             {
-                Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(Fila, Columna, Dimension);
-                Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla( (*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension);
+                Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(Fila, Columna, Dimension);                                                             //   Se asignan a las columnas
+                Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla( (*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension);        //   opuestas sus respectivos
             }
         }
     }
 
-    Matriz[((*Dimension)/2)][((*Dimension)/2)] = 0;
+    Matriz[((*Dimension)/2)][((*Dimension)/2)] = 0;   //Se asigna 0 a la casilla centro
 
     return Matriz;
 }
 
 void RotarMatriz(unsigned short int** Matriz, unsigned short int* Dimension, unsigned short int CantRotaciones)
 {
-    for (short int Fila=1; Fila<=((*Dimension)/2)+1; Fila++)
+    for (short int Fila=1; Fila<=((*Dimension)/2)+1; Fila++)    //Se recorren las filas hasta la fila centro de la matriz
     {
-        if (Fila < ((*Dimension)/2)+1)
+        if (Fila < ((*Dimension)/2)+1)  //Si se está en una fila menor que la centro
         {
-            for (short int Columna=1; Columna<=(*Dimension); Columna++)
+            for (short int Columna=1; Columna<=(*Dimension); Columna++)     //Se recorren las columnas
             {
+                //Se asigna a las columnas opuestas de las filas opuestas el valor de la casilla transformada a una cantidad de rotaciones
+
                 Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(TransformarFila(Fila, Columna, Dimension, &CantRotaciones), TransformarColumna(Fila, Columna, Dimension, &CantRotaciones), Dimension);
                 Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla(TransformarFila((*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension, &CantRotaciones), TransformarColumna((*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension, &CantRotaciones), Dimension);
             }
         }
-        else
+        else       //Si se está en la fila centro
         {
-            for (short int Columna=1; Columna<=((*Dimension)/2); Columna++)
+            for (short int Columna=1; Columna<=((*Dimension)/2); Columna++)    //Se reccorre las columnas de la fila centro hasta antes de la casilla centro
             {
+                //Se asigna a las columnas opuestas el valor de la casilla transformada a una cantidad de rotaciones
+
                 Matriz[Fila-1][Columna-1] = ObtenerValorCasilla(TransformarFila(Fila, Columna, Dimension, &CantRotaciones), TransformarColumna(Fila, Columna, Dimension, &CantRotaciones), Dimension);
                 Matriz[(*Dimension)-Fila][(*Dimension)-Columna] = ObtenerValorCasilla(TransformarFila((*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension, &CantRotaciones), TransformarColumna((*Dimension)-Fila+1, (*Dimension)-Columna+1, Dimension, &CantRotaciones), Dimension);
             }
@@ -61,37 +66,39 @@ void RotarMatriz(unsigned short int** Matriz, unsigned short int* Dimension, uns
 
 unsigned short int ObtenerEstadoRotacion(unsigned short int** Matriz, unsigned short int* Dimension)
 {
-    if (Matriz[0][0] == 1)
+    if (Matriz[0][0] == 1)   //Si el primer elemento corresponde al valor de la esquina superior izquierda en una matriz en estado neutro
     {
-        return 0;
+        return 0;   //Se encuentra en estado neutro
     }
-    else if (Matriz[0][0] == (*Dimension))
+    else if (Matriz[0][0] == (*Dimension))   //Si el primer elemento corresponde al valor de la esquina superior derecha en una matriz en estado neutro
     {
-        return 1;
+        return 1;   //Se encuentra en rotacion 1
     }
-    else if (Matriz[0][0] == ((*Dimension)*(*Dimension))-1)
+    else if (Matriz[0][0] == ((*Dimension)*(*Dimension))-1)   //Si el primer elemento corresponde al valor de la esquina inferior derecha en una matriz en estado neutro
     {
-        return 2;
+        return 2;   //Se encuentra en rotacion 2
     }
-    else if (Matriz[0][0] == ((*Dimension)*(*Dimension))-(*Dimension))
+    else if (Matriz[0][0] == ((*Dimension)*(*Dimension))-(*Dimension))   //Si el primer elemento corresponde al valor de la esquina inferior izquierda en una matriz en estado neutro
     {
-        return 3;
+        return 3;   //Se encuentra en rotacion 3
     }
 }
 
 
 void EliminarMatriz(unsigned short int** Matriz, unsigned short int* Dimension)
 {
-    for (short int Fila=0; Fila<(*Dimension); Fila++)
+    for (short int Fila=0; Fila<(*Dimension); Fila++)   //Se recorren las filas de la matriz y se libera la memoria correspondiente
     {
         delete Matriz[Fila];
     }
 
-    delete Matriz;
+    delete Matriz;   //Se libera la memoria del arreglo principal
 }
 
 short unsigned int TransformarFila(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension, unsigned short int* CantRotaciones)
 {
+    //Se aplica a la fila la transformación que corresponda a una cantidad de rotaciones específica
+
     if (*CantRotaciones == 1)
     {
         return Columna;
@@ -108,6 +115,8 @@ short unsigned int TransformarFila(unsigned short int Fila, unsigned short int C
 
 short unsigned int TransformarColumna(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension, unsigned short int* CantRotaciones)
 {
+    //Se aplica a la columna la transformación que corresponda a una cantidad de rotaciones específica
+
     if (*CantRotaciones == 1)
     {
         return (*Dimension) - (Fila) + 1;
@@ -124,11 +133,13 @@ short unsigned int TransformarColumna(unsigned short int Fila, unsigned short in
 
 unsigned short int ObtenerValorCasilla(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension)
 {
-    if (PosRespectoCentro(&Fila, &Columna, Dimension) == '-')
+    //Se optiene el valor de una casilla con ayuda de la fórmula correspondiente
+
+    if (PosRespectoCentro(&Fila, &Columna, Dimension) == '-')   //Si la casilla dada esta detrás de la casilla centro (-)
     {
         return ( (Columna) + ((Fila-1)*(*Dimension)) );
     }
-    else if (PosRespectoCentro(&Fila, &Columna, Dimension) == '+')
+    else if (PosRespectoCentro(&Fila, &Columna, Dimension) == '+')  //Si la casilla dada esta delante de la casilla centro (+)
     {
         return ( (Columna) + ((Fila-1)*(*Dimension)) ) -1;
     }
@@ -136,21 +147,23 @@ unsigned short int ObtenerValorCasilla(unsigned short int Fila, unsigned short i
 
 char PosRespectoCentro(unsigned short int* Fila, unsigned short int* Columna, unsigned short int* Dimension)
 {
-    if (*Fila<((*Dimension)/2)+1)
+    //Se determina si una casilla dada esta delante (+) o detrás (-) de la casilla centro
+
+    if (*Fila<((*Dimension)/2)+1)   //Si la fila es menor que la fila centro
     {
         return '-';
     }
-    else if (*Fila>((*Dimension)/2)+1)
+    else if (*Fila>((*Dimension)/2)+1)  //Si la fila es mayor que la fila centro
     {
         return '+';
     }
-    else if (*Fila==((*Dimension)/2)+1)
+    else if (*Fila==((*Dimension)/2)+1)   //Si se está en la fila centro
     {
-        if (*Columna<((*Dimension)/2)+1)
+        if (*Columna<((*Dimension)/2)+1)    //Si la columa es menor que la columna centro
         {
             return '-';
         }
-        else if (*Columna>((*Dimension)/2)+1)
+        else if (*Columna>((*Dimension)/2)+1)   //Si la columa es mayor que la columna centro
         {
             return '+';
         }
@@ -159,6 +172,8 @@ char PosRespectoCentro(unsigned short int* Fila, unsigned short int* Columna, un
 
 void ImprimirMatriz(unsigned short int** Matriz, unsigned short int* Dimension)
 {
+    //Se recorre la matriz y se imprime
+
     for (short int Fila=0; Fila<(*Dimension); Fila++)
     {
         for (short int Columna=0; Columna<(*Dimension); Columna++)
