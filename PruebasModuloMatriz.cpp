@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Matriz.h"
 
+void PruebaModulo();
+
 int main()
 {
     PruebaModulo();
@@ -12,17 +14,17 @@ void PruebaModulo()
 {
     unsigned short int Dimension = 5;
 
-    unsigned short int** Matriz = CrearMatriz(&Dimension);
+    unsigned short int** Matriz = CrearMatriz(Dimension);
 
-    ImprimirMatriz(Matriz, &Dimension);
+    ImprimirMatriz(Matriz);
 
     std::cout << "\n\n";
 
-    RotarMatriz(Matriz, &Dimension, 1);
+    RotarMatriz(Matriz, 2);
 
-    ImprimirMatriz(Matriz, &Dimension);
+    ImprimirMatriz(Matriz);
 
-    std::cout << "\nEstado de rotacion = " << ObtenerEstadoRotacion(Matriz, &Dimension);
+    std::cout << "\nEstado de rotacion = " << ObtenerEstadoRotacion(Matriz);
 
     std::cout << "\n\n";
 
@@ -32,7 +34,7 @@ void PruebaModulo()
         {
             if (Matriz[Fila][Columna] != 0)
             {
-                std::cout << "(" << ObtenerFilaOriginal(Matriz[Fila][Columna], &Dimension) << ", " << ObtenerColumnaOriginal(Matriz[Fila][Columna], &Dimension) << ") ";
+                std::cout << "(" << ObtenerFilaOriginal(Matriz[Fila][Columna], Dimension) << ", " << ObtenerColumnaOriginal(Matriz[Fila][Columna], Dimension) << ") ";
 
             }
             else
@@ -44,7 +46,7 @@ void PruebaModulo()
         std::cout << "\n";
     }
 
-    EliminarMatriz(Matriz, &Dimension);
+    EliminarMatriz(Matriz);
 
     return;
 }
