@@ -131,6 +131,37 @@ short unsigned int TransformarColumna(unsigned short int Fila, unsigned short in
     }
 }
 
+short unsigned int ObtenerFilaOriginal(unsigned short int Valor, unsigned short int* Dimension)
+{
+    //Se aplica la formula correspondiente para obtener la fila asociada a un valor en una matriz
+
+    if (Valor < ((*Dimension)*(*Dimension))/2)  //Si el valor se encuentra detrás de la casilla centro
+    {
+        Valor--;
+    }
+
+    return (Valor/(*Dimension))+1;
+}
+
+short unsigned int ObtenerColumnaOriginal(unsigned short int Valor, unsigned short int* Dimension)
+{
+    //Se aplica la formula correspondiente para obtener la columna asociada a un valor en una matriz
+
+    if (Valor > ((*Dimension)*(*Dimension))/2)  //Si el valor se encuentra delante de la casilla centro
+    {
+        Valor++;
+    }
+
+    if (Valor%(*Dimension) == 0)    //Si el valor es divisible por la dimensión
+    {
+        return (*Dimension);
+    }
+    else
+    {
+        return(Valor%(*Dimension));
+    }
+}
+
 unsigned short int ObtenerValorCasilla(unsigned short int Fila, unsigned short int Columna, unsigned short int* Dimension)
 {
     //Se optiene el valor de una casilla con ayuda de la fórmula correspondiente
