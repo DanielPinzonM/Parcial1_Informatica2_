@@ -1,0 +1,6 @@
+#ifndef FUNCIONESCOMPROBACION_H
+#define FUNCIONESCOMPROBACION_H
+
+#endif // FUNCIONESCOMPROBACION_H
+bool Abrecerradura(unsigned short int ***cerradura);
+bool ComprobacionDeCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,unsigned short *Arreglo_Comparaciones);
