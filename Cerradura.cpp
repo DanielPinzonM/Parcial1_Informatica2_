@@ -1,8 +1,10 @@
 #include "Cerradura.h"
 #include "Matriz.h"
 
-unsigned short int*** CrearCerradura(unsigned short int *Dimension, unsigned short int NumComparaciones)
+unsigned short int*** CrearCerradura(unsigned short int* Fila, unsigned short int* Columna, unsigned short int NumComparaciones)
 {
+    unsigned short int Dimension = DimensionMinima(Fila, Columna);
+
     unsigned short int*** Cerradura = new unsigned short int**[NumComparaciones+1];
 
     for (short int Posicion=0; Posicion<(NumComparaciones+1); Posicion++)
@@ -13,7 +15,7 @@ unsigned short int*** CrearCerradura(unsigned short int *Dimension, unsigned sho
     return Cerradura;
 }
 
-unsigned short int ObtenerDimension(unsigned short int* Fila, unsigned short int* Columna)
+unsigned short int DimensionMinima(unsigned short int* Fila, unsigned short int* Columna)
 {
     if((*Fila) > 3 || (*Columna) > 3)
     {
@@ -46,11 +48,29 @@ unsigned short int ObtenerDimension(unsigned short int* Fila, unsigned short int
     }
 }
 
-void EliminarCerradura(unsigned short int*** Cerradura,unsigned short int *Dimension , unsigned short int NumComparaciones)
+unsigned short int ObtenerDiferencia(unsigned short int DimensionM1, unsigned short int DimensionM2)
+{
+    if (DimensionM1 > DimensionM2)
+    {
+        return (DimensionM1-DimensionM2)/2;
+    }
+    else
+    {
+        return (DimensionM2-DimensionM1)/2;
+    }
+}
+
+void IgualarRotacion(unsigned short int** Matriz1, unsigned short int** Matriz2)
+{
+        RotarMatriz(Matriz2, ObtenerEstadoRotacion(Matriz1));
+
+}
+
+void EliminarCerradura(unsigned short int*** Cerradura, unsigned short int NumComparaciones)
 {
     for (short int Posicion=0; Posicion<(NumComparaciones+1); Posicion++)
     {
-        EliminarMatriz(Cerradura[Posicion], Dimension);
+        EliminarMatriz(Cerradura[Posicion]);
     }
 
     delete Cerradura;
