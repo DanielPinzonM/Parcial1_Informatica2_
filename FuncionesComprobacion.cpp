@@ -1,6 +1,6 @@
 #include "Matriz.h"
 #include "Cerradura.h"
-
+/*
 void ComprobacionDeCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadMatrices)
 {
     unsigned short int Diferencia_entre_dimensiones, FilaOriginal, ColumnaOriginal;
@@ -70,96 +70,44 @@ void ComprobacionDeCerradura(unsigned short int ***Cerradura,unsigned short int 
         }
     }
 
-    //sale del bucle;
+//sale del bucle;
 }
+*/
 
-bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadMatrices )
+bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadMatrices, unsigned short int DimensionOriginal )
 {
-    unsigned short int Diferencia_entre_dimensiones;
-    unsigned short int Dimension_Matriz_Primera, Dimension_Matriz_Segunda;
+    unsigned short int DiferenciaM1, DiferenciaM2;
 
-    for(int i=0;  i < CantidadMatrices-2; i++)
+
+    for(int i=0;  i < CantidadMatrices; i++)
     {
-        Dimension_Matriz_Primera=ObtenerDimension(Cerradura[i]);
-        Dimension_Matriz_Segunda=ObtenerDimension(Cerradura[1+i]);
+        DiferenciaM1=(ObtenerDimension(Cerradura[i])-(DimensionOriginal))/2;
+        DiferenciaM2=(ObtenerDimension(Cerradura[i+1])-(DimensionOriginal))/2;
 
-        if (Arreglo_Comparaciones[(CantidadMatrices-1)-1-i] == 1)
+
+        if (Arreglo_Comparaciones[i] == 1)
         {
-            if(Dimension_Matriz_Primera == Dimension_Matriz_Segunda)
+            if(Cerradura[i][Fila-1+DiferenciaM1][Columna-1+DiferenciaM1] <= Cerradura[i+1][Fila-1+DiferenciaM2][Columna-1+DiferenciaM2])
             {
-                if(Cerradura[i][Fila-1][Columna-1] <= Cerradura[1+i][Fila-1][Columna-1])
-                {
-                    return false;
-                }
-            }
-            else if (Dimension_Matriz_Primera > Dimension_Matriz_Segunda)
-            {
-                Diferencia_entre_dimensiones = ObtenerDiferencia(Dimension_Matriz_Primera,Dimension_Matriz_Segunda);
-
-                if (Cerradura[i][Fila-1+(Diferencia_entre_dimensiones)][Columna-1+(Diferencia_entre_dimensiones)] <=  Cerradura[1+i][Fila-1][Columna-1] )
-                {
-                    return false;
-                }
-
-            }
-            else if(Dimension_Matriz_Primera < Dimension_Matriz_Segunda)
-            {
-
-                Diferencia_entre_dimensiones = ObtenerDiferencia(Dimension_Matriz_Primera,Dimension_Matriz_Segunda);
-
-                if (Cerradura[i][Fila-1][Columna-1] <=  Cerradura[1+i][Fila-1+Diferencia_entre_dimensiones][Columna-1+(Diferencia_entre_dimensiones)] )
-                {
-                    return false;
-                }
-            }
-
-        }
-
-        else if (Arreglo_Comparaciones[(CantidadMatrices-1)-1-i] == -1)
-        {
-            if(Dimension_Matriz_Primera == Dimension_Matriz_Segunda)
-            {
-                if(Cerradura[i][Fila-1][Columna-1] >= Cerradura[1+i][Fila-1][Columna-1])
-                {
-                    return false;
-                }
-            }
-            else if (Dimension_Matriz_Primera > Dimension_Matriz_Segunda)
-            {
-                Diferencia_entre_dimensiones = ObtenerDiferencia(Dimension_Matriz_Primera,Dimension_Matriz_Segunda);
-
-                if (Cerradura[i][Fila-1+(Diferencia_entre_dimensiones)][Columna-1+(Diferencia_entre_dimensiones)] >=  Cerradura[1+i][Fila-1][Columna-1] )
-                {
-                    return false;
-                }
-
-            }
-            else if(Dimension_Matriz_Primera < Dimension_Matriz_Segunda)
-            {
-
-                Diferencia_entre_dimensiones = ObtenerDiferencia(Dimension_Matriz_Primera,Dimension_Matriz_Segunda);
-
-                if (Cerradura[i][Fila-1][Columna-1] >=  Cerradura[1+i][Fila-1+Diferencia_entre_dimensiones][Columna-1+(Diferencia_entre_dimensiones)] )
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
-        else if (Arreglo_Comparaciones[(CantidadMatrices-1)-1-i] == 0)
+        else if (Arreglo_Comparaciones[i] == -1)
         {
-
-            if(Dimension_Matriz_Primera != Dimension_Matriz_Segunda) // si la dimenension no es igual retorna falso
+            if(Cerradura[i][Fila-1+DiferenciaM1][Columna-1+DiferenciaM1] >= Cerradura[i+1][Fila-1+DiferenciaM2][Columna-1+DiferenciaM2])
             {
-                return  false;
+                return false;
             }
-            else if (ObtenerEstadoRotacion(Cerradura[i]) != ObtenerEstadoRotacion(Cerradura[i+1]))
+        }
+
+        else if (Arreglo_Comparaciones[i] == 0)
+        {
+            if(Cerradura[i][Fila-1+DiferenciaM1][Columna-1+DiferenciaM1] != Cerradura[i+1][Fila-1+DiferenciaM2][Columna-1+DiferenciaM2])
             {
                 return false;
             }
         }
     }
-
-
     return true;
 }
