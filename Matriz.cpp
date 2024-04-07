@@ -40,6 +40,11 @@ void RotarMatriz(unsigned short int** Matriz, unsigned short int CantRotaciones)
 {
     unsigned short int Dimension = ObtenerDimension(Matriz);
 
+    while (*CantRotaciones > 3)   //Siempre que la cantidad de rotaciones sea mayor que tres, se le resta cuatro
+    {
+        *CantRotaciones -= 4;
+    }
+
     for (short int Fila=1; Fila<=(Dimension/2)+1; Fila++)   //Se recorren las filas hasta la fila centro de la matriz
     {
         if (Fila < (Dimension/2)+1)   //Si se está en una fila menor que la centro
