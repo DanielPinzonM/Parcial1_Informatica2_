@@ -35,7 +35,12 @@ void PruebaModulo()
     ImprimirMatriz(Cerradura[0]);
     ImprimirMatriz(Cerradura[2]);
 
+    CambiarMatriz(Cerradura[2], 7);
+
     std::cout << std::endl;
+
+    ImprimirMatriz(Cerradura[0]);
+    ImprimirMatriz(Cerradura[2]);
 
     EliminarCerradura(Cerradura, 3);
 
