@@ -1,10 +1,14 @@
 #include "Matriz.h"
 #include "Cerradura.h"
+#include <iostream>
+
+using namespace std;
 
 void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadComparaciones,unsigned short int DimensionOriginal)
 {
     unsigned short int FilaOriginal, ColumnaOriginal;
     unsigned short int Dimension_Matriz_Primera, Dimension_Matriz_Segunda,DiferenciaM1,DiferenciaM2;
+    unsigned short int Dimension;
 
     for(int i=CantidadComparaciones-1;  i >= 0; i--)
     {
@@ -22,7 +26,9 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
                 if ( FilaOriginal <= (Dimension_Matriz_Primera/2 ) && (ColumnaOriginal < Dimension_Matriz_Primera))
                 {
 
-                    CambiarMatriz(Cerradura[i],ObtenerDimension(Cerradura[i])+2);
+                    Dimension = ObtenerDimension(Cerradura[i])+2;
+                    EliminarMatriz(Cerradura[i]);
+                    Cerradura[i] = CrearMatriz(Dimension);
                 }
                 else if	( FilaOriginal > (Dimension_Matriz_Primera/2) && ColumnaOriginal<=((Dimension_Matriz_Primera/2)+1))
                 {
@@ -41,7 +47,9 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
             {
                 if ( FilaOriginal > ((Dimension_Matriz_Primera/2)+1 ) && (ColumnaOriginal > 1 ))
                 {
-                    CambiarMatriz(Cerradura[i+1],ObtenerDimension(Cerradura[i+1])+2);
+                    Dimension = ObtenerDimension(Cerradura[i+1])+2;
+                    EliminarMatriz(Cerradura[i+1]);
+                    Cerradura[i+1] = CrearMatriz(Dimension);
                 }
                 else if	( FilaOriginal <= ( (Dimension_Matriz_Primera/2)+1 ) && ColumnaOriginal> ((Dimension_Matriz_Primera/2)))
                 {
@@ -61,11 +69,15 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
                 {
                     if(Dimension_Matriz_Primera > Dimension_Matriz_Segunda)
                     {
-                        CambiarMatriz(Cerradura[i+1],ObtenerDimension(Cerradura[i]));
+                        Dimension = ObtenerDimension(Cerradura[i]);
+                        EliminarMatriz(Cerradura[i+1]);
+                        Cerradura[i+1] = CrearMatriz(Dimension);
                     }
                     else
                     {
-                        CambiarMatriz(Cerradura[i],ObtenerDimension(Cerradura[i+1]));
+                        Dimension = ObtenerDimension(Cerradura[i+1]);
+                        EliminarMatriz(Cerradura[i]);
+                        Cerradura[i] = CrearMatriz(Dimension);
                     }
                     IgualarRotacion(Cerradura[i],Cerradura[i+1]);
 
@@ -117,4 +129,21 @@ bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsi
         }
     }
     return true;
+}
+void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio)
+{
+    cout<<"x(";
+
+    for(int i =0; i <= Tamanio;i++)
+    {
+        if (i < Tamanio)
+        {
+            cout<<ObtenerDimension(Cerradura[i])<<"|"<<ObtenerEstadoRotacion(Cerradura[i])<<", ";
+        }
+        else
+        {
+            cout<<ObtenerDimension(Cerradura[i])<<"|"<<ObtenerEstadoRotacion(Cerradura[i]);
+        }
+    }
+    cout<<")";
 }
