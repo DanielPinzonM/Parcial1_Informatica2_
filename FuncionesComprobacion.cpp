@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadComparaciones,unsigned short int DimensionOriginal)
+void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones, short int CantidadComparaciones,unsigned short int DimensionOriginal)
 {
     unsigned short int FilaOriginal, ColumnaOriginal;
     unsigned short int Dimension_Matriz_Primera, Dimension_Matriz_Segunda,DiferenciaM1,DiferenciaM2;
@@ -94,7 +94,7 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
     //sale del bucle;
 }
 
-bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadComparaciones, unsigned short int DimensionOriginal )
+bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones, short int CantidadComparaciones, unsigned short int DimensionOriginal )
 {
     unsigned short int DiferenciaM1, DiferenciaM2;
 
@@ -148,23 +148,72 @@ void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio)
     }
     cout<<")";
 }
-/*
+
 void Menu ()
 {
+    unsigned short int Fila, Columna;
+    short int CantComparacion;
 
+    cout << " Ingrese el numero de comparaciones: ";
+    cin >> Fila;
 
-    while (Abrecerradura(Cerradura, Fila, Columna, Arreglo_Comparaciones, sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]), DimensionMinima(&Fila,&Columna))  == false)
+    while (cin.fail() || Fila<1)
     {
-
-        CambiosCerradura(Cerradura,Fila,Columna,Arreglo_Comparaciones, sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]),DimensionMinima(&Fila,&Columna));
+        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese el numero de comparaciones: ";
+        cin >> Fila;
     }
-    for(int i =0; i <= (sizeof(Arreglo_Comparaciones))/sizeof(Arreglo_Comparaciones[0]);i++)
+
+    short int Comparaciones[Fila];
+
+    for (short int i=0; i<Fila; i++)
+    {
+        cout << " Ingrese una comparacion: ";
+        cin >> CantComparacion;
+
+        while (cin.fail() || CantComparacion>1 || CantComparacion<-1)
+        {
+            cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese una comparacion: ";
+            cin >> CantComparacion;
+        }
+
+        Comparaciones[i] = CantComparacion;
+    }
+
+    CantComparacion = Fila;
+
+    cout << " Ingrese la fila: ";
+    cin >> Fila;
+
+    while (cin.fail() || Fila<0)
+    {
+        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese la fila: ";
+        cin >> Fila;
+    }
+
+    cout << " Ingrese la fila: ";
+    cin >> Columna;
+
+    while (cin.fail() || Columna<0)
+    {
+        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese el numero de comparaciones: ";
+        cin >> Columna;
+    }
+
+    unsigned short int*** Cerradura = CrearCerradura(&Fila, &Columna, CantComparacion);
+
+    while (Abrecerradura(Cerradura, Fila, Columna, Comparaciones, CantComparacion, DimensionMinima(&Fila,&Columna))  == false)
+    {
+        CambiosCerradura(Cerradura,Fila,Columna, Comparaciones, CantComparacion,DimensionMinima(&Fila,&Columna));
+    }
+    for(short int i =0; i <= CantComparacion;i++)
     {
         ImprimirMatriz(Cerradura[i]);
         cout<<"\n";
     }
-    RetornarConfiguracionX(Cerradura,sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]));
-    EliminarCerradura(Cerradura,sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]));
 
+    RetornarConfiguracionX(Cerradura, CantComparacion);
+
+    EliminarCerradura(Cerradura, CantComparacion);
+
+    return;
 }
-*/

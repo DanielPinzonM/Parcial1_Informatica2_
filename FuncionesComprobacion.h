@@ -2,9 +2,10 @@
 #define FUNCIONESCOMPROBACION_H
 
 
-bool Abrecerradura( unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadComprobaciones,unsigned short int DimensionOriginal);
-void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones,int CantidadComparaciones,unsigned short int DimensionOriginal);
-void Menu ();
+bool Abrecerradura( unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones, short int CantidadComprobaciones,unsigned short int DimensionOriginal);
+void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsigned short Columna,short int *Arreglo_Comparaciones, short int CantidadComparaciones,unsigned short int DimensionOriginal);
 void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio);
-#endif // FUNCIONESCOMPROBACION_H
+void Menu ();
+bool ObtenerClave(unsigned short int* Fila, unsigned short int* Columna, short int* Comparaciones, unsigned short int* CantidadComparaciones);
 
+#endif // FUNCIONESCOMPROBACION_H
