@@ -1,5 +1,6 @@
 #include "Matriz.h"
 #include "Cerradura.h"
+#include "FuncionesComprobacion.h"
 #include <iostream>
 
 using namespace std;
@@ -147,3 +148,23 @@ void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio)
     }
     cout<<")";
 }
+/*
+void Menu ()
+{
+
+
+    while (Abrecerradura(Cerradura, Fila, Columna, Arreglo_Comparaciones, sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]), DimensionMinima(&Fila,&Columna))  == false)
+    {
+
+        CambiosCerradura(Cerradura,Fila,Columna,Arreglo_Comparaciones, sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]),DimensionMinima(&Fila,&Columna));
+    }
+    for(int i =0; i <= (sizeof(Arreglo_Comparaciones))/sizeof(Arreglo_Comparaciones[0]);i++)
+    {
+        ImprimirMatriz(Cerradura[i]);
+        cout<<"\n";
+    }
+    RetornarConfiguracionX(Cerradura,sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]));
+    EliminarCerradura(Cerradura,sizeof(Arreglo_Comparaciones)/sizeof(Arreglo_Comparaciones[0]));
+
+}
+*/
