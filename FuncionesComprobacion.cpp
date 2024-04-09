@@ -26,17 +26,28 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
             {
                 if ( FilaOriginal <= (Dimension_Matriz_Primera/2 ) && (ColumnaOriginal < Dimension_Matriz_Primera))
                 {
-
                     Dimension = ObtenerDimension(Cerradura[i])+2;
                     EliminarMatriz(Cerradura[i]);
                     Cerradura[i] = CrearMatriz(Dimension);
                 }
                 else if	( FilaOriginal > (Dimension_Matriz_Primera/2) && ColumnaOriginal<=((Dimension_Matriz_Primera/2)+1))
                 {
+                    if(Dimension_Matriz_Primera < Dimension_Matriz_Segunda)
+                    {
+                        Dimension = ObtenerDimension(Cerradura[i+1]);
+                        EliminarMatriz(Cerradura[i]);
+                        Cerradura[i] = CrearMatriz(Dimension);
+                    }
                     RotarMatriz(Cerradura[i+1],ObtenerEstadoRotacion(Cerradura[i])+1);
                 }
                 else if ( (ColumnaOriginal == Dimension_Matriz_Primera && FilaOriginal>(Dimension_Matriz_Primera/2) ) || (ColumnaOriginal>( (Dimension_Matriz_Primera/2) +1) && FilaOriginal >(Dimension_Matriz_Primera/2)))
                 {
+                    if(Dimension_Matriz_Primera < Dimension_Matriz_Segunda)
+                    {
+                        Dimension = ObtenerDimension(Cerradura[i+1]);
+                        EliminarMatriz(Cerradura[i]);
+                        Cerradura[i] = CrearMatriz(Dimension);
+                    }
                     RotarMatriz(Cerradura[i+1],ObtenerEstadoRotacion(Cerradura[i])+3);
                 }
             }
@@ -54,10 +65,22 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
                 }
                 else if	( FilaOriginal <= ( (Dimension_Matriz_Primera/2)+1 ) && ColumnaOriginal> ((Dimension_Matriz_Primera/2)))
                 {
+                    if(Dimension_Matriz_Primera > Dimension_Matriz_Segunda)
+                    {
+                        Dimension = ObtenerDimension(Cerradura[i]);
+                        EliminarMatriz(Cerradura[i+1]);
+                        Cerradura[i+1] = CrearMatriz(Dimension);
+                    }
                     RotarMatriz(Cerradura[i+1],ObtenerEstadoRotacion(Cerradura[i])+1);
                 }
                 else if ( (ColumnaOriginal == 1 && FilaOriginal>((Dimension_Matriz_Primera/2)+1 ) ) || (ColumnaOriginal<= (Dimension_Matriz_Primera/2)  && FilaOriginal <= ((Dimension_Matriz_Primera/2)+1 )))
                 {
+                    if(Dimension_Matriz_Primera > Dimension_Matriz_Segunda)
+                    {
+                        Dimension = ObtenerDimension(Cerradura[i]);
+                        EliminarMatriz(Cerradura[i+1]);
+                        Cerradura[i+1] = CrearMatriz(Dimension);
+                    }
                     RotarMatriz(Cerradura[i+1],ObtenerEstadoRotacion(Cerradura[i])+3);
                 }
             }
@@ -80,8 +103,6 @@ void CambiosCerradura(unsigned short int ***Cerradura,unsigned short int Fila, u
                         EliminarMatriz(Cerradura[i]);
                         Cerradura[i] = CrearMatriz(Dimension);
                     }
-                    IgualarRotacion(Cerradura[i],Cerradura[i+1]);
-
                 }
                 else if (ObtenerEstadoRotacion(Cerradura[i]) != ObtenerEstadoRotacion(Cerradura[i+1]))
                 {
@@ -133,17 +154,17 @@ bool Abrecerradura(unsigned short int ***Cerradura,unsigned short int Fila, unsi
 }
 void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio)
 {
-    cout<<"x(";
+    cout<<"\nConfiguracion de cerradura: X(";
 
     for(int i =0; i <= Tamanio;i++)
     {
         if (i < Tamanio)
         {
-            cout<<ObtenerDimension(Cerradura[i])<<"|"<<ObtenerEstadoRotacion(Cerradura[i])<<", ";
+            cout << ObtenerDimension(Cerradura[i]) << "(" << ObtenerEstadoRotacion(Cerradura[i]) << "), ";
         }
         else
         {
-            cout<<ObtenerDimension(Cerradura[i])<<"|"<<ObtenerEstadoRotacion(Cerradura[i]);
+            cout << ObtenerDimension(Cerradura[i]) << "(" << ObtenerEstadoRotacion(Cerradura[i]) << ")";
         }
     }
     cout<<")";
@@ -152,51 +173,13 @@ void RetornarConfiguracionX(unsigned short int ***Cerradura,short int Tamanio)
 void Menu ()
 {
     unsigned short int Fila, Columna;
-    short int CantComparacion;
+    short int CantComparacion = 0;
+    short int *Comparaciones;
+    bool ClaveObtenida = false;
 
-    cout << " Ingrese el numero de comparaciones: ";
-    cin >> Fila;
-
-    while (cin.fail() || Fila<1)
+    while(ClaveObtenida == false)
     {
-        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese el numero de comparaciones: ";
-        cin >> Fila;
-    }
-
-    short int Comparaciones[Fila];
-
-    for (short int i=0; i<Fila; i++)
-    {
-        cout << " Ingrese una comparacion: ";
-        cin >> CantComparacion;
-
-        while (cin.fail() || CantComparacion>1 || CantComparacion<-1)
-        {
-            cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese una comparacion: ";
-            cin >> CantComparacion;
-        }
-
-        Comparaciones[i] = CantComparacion;
-    }
-
-    CantComparacion = Fila;
-
-    cout << " Ingrese la fila: ";
-    cin >> Fila;
-
-    while (cin.fail() || Fila<0)
-    {
-        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese la fila: ";
-        cin >> Fila;
-    }
-
-    cout << " Ingrese la fila: ";
-    cin >> Columna;
-
-    while (cin.fail() || Columna<0)
-    {
-        cout << "\n***Se ingresaron datos invalidos***\n\n Ingrese el numero de comparaciones: ";
-        cin >> Columna;
+        Comparaciones = ObtenerClave(&Fila, &Columna, &CantComparacion, &ClaveObtenida);
     }
 
     unsigned short int*** Cerradura = CrearCerradura(&Fila, &Columna, CantComparacion);
@@ -205,6 +188,9 @@ void Menu ()
     {
         CambiosCerradura(Cerradura,Fila,Columna, Comparaciones, CantComparacion,DimensionMinima(&Fila,&Columna));
     }
+
+    cout<<"\n";
+
     for(short int i =0; i <= CantComparacion;i++)
     {
         ImprimirMatriz(Cerradura[i]);
@@ -215,5 +201,96 @@ void Menu ()
 
     EliminarCerradura(Cerradura, CantComparacion);
 
+    delete[] Comparaciones;
+
+    return;
+}
+
+short int* ObtenerClave(unsigned short int* Fila, unsigned short int* Columna, short int* CantidadComparaciones, bool *Clave)
+{
+    short int AuxComparaciones[15];
+    short int Cantidad;
+
+    cout << "Ingrese la clave (ingrese un numero diferente al final de las comparaciones):\n\n ";
+
+    while(true)
+    {
+        cin >> Cantidad;
+
+        if(cin.fail())
+        {
+            cout << "\n***Se ingresaron datos invalidos***\n";
+            IgnorarCin(Fila, Columna, CantidadComparaciones, Clave);
+            return NULL;
+        }
+        else if(*CantidadComparaciones == 0)
+        {
+            if(Cantidad>0)
+            {
+                *Fila = Cantidad;
+            }
+            else
+            {
+                cout << "\n***Se ingreso una fila invalida***\n";
+                IgnorarCin(Fila, Columna, CantidadComparaciones, Clave);
+                return NULL;
+            }
+        }
+        else if(*CantidadComparaciones == 1)
+        {
+            if(Cantidad>0)
+            {
+                *Columna = Cantidad;
+            }
+            else
+            {
+                cout << "\n***Se ingreso una columna invalida***\n";
+                IgnorarCin(Fila, Columna, CantidadComparaciones, Clave);
+                return NULL;
+            }
+        }
+        else if(*CantidadComparaciones>1)
+        {
+            if(((*CantidadComparaciones)==2 && Cantidad>1) || ((*CantidadComparaciones)==2 && Cantidad<-1))
+            {
+                cout << "\n***No se ingreso ninguna comparacion***\n";
+                IgnorarCin(Fila, Columna, CantidadComparaciones, Clave);
+                return NULL;
+            }
+            else if(Cantidad<=1 && Cantidad>=-1)
+            {
+                AuxComparaciones[*CantidadComparaciones-2] = Cantidad;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        *CantidadComparaciones += 1;
+    }
+
+    *CantidadComparaciones -= 2;
+
+    short int *Comparaciones = new short int[*CantidadComparaciones];
+
+    for (short int i=0; i<(*CantidadComparaciones); i++)
+    {
+        Comparaciones[i] = AuxComparaciones[i];
+    }
+
+    *Clave = true;
+
+    return Comparaciones;
+}
+
+void IgnorarCin(unsigned short int* Fila, unsigned short int* Columna, short int *CantidadComparaciones, bool* Clave)
+{
+    cin.clear();
+    cin.ignore(15, '\n');
+    *Fila = 0;
+    *Columna = 0;
+    *CantidadComparaciones = 0;
+    *Clave = false;
     return;
 }
